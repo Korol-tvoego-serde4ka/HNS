@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Debug;
 
 public class PlayerScript : MonoBehaviour
 {
+    void Start()
+    {
+        Log("Test");
+    }
     public Joystick joystick;
 
     [Header("Скорость перемещения персонажа")]
@@ -19,7 +25,6 @@ public class PlayerScript : MonoBehaviour
     [Header("Мы на земле?")]
     public bool ground;
 
-    public Rigidbody rb;
     public Button jumpButton;
 
     private float vertical;
@@ -82,10 +87,18 @@ public class PlayerScript : MonoBehaviour
                 transform.localPosition += transform.right * speed * Time.deltaTime;
             }
         }
-        if (Input.GetButtonDown("Jump") && ground)
+        if (Input.GetButtonDown("Jump"))
         {
-            rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-            ground = false;
+            Log(ground);
+
+            Log(new StackTrace().ToString());
+
+            if (ground)
+            {
+                Log("Jumping...");
+
+                GetComponent<Rigidbody>().AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            }
         }
     }
 

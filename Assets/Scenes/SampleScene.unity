@@ -1824,7 +1824,6 @@ MonoBehaviour:
   runSpeed: 7
   jumpPower: 90000
   ground: 1
-  rb: {fileID: 1857780316}
   jumpButton: {fileID: 1666234183}
 --- !u!4 &1857780319 stripped
 Transform:
