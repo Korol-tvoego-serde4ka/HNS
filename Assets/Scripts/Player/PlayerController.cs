@@ -1,120 +1,68 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Debug;
 
-public class PlayerScript : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    void Start()
-    {
-        Log("Test");
-    }
-    public Joystick joystick;
 
-    [Header("Скорость перемещения персонажа")]
-    public float speed = 7f;
+    public Joystick moveJoystick;
+    public Joystick lookJoystick;
 
-    [Header("Скорость бега персонажа")]
-    public float runSpeed = 7f;
-
-    [Header("Сила прыжка")]
-    public float jumpPower = 200f;
-
-    [Header("Мы на земле?")]
-    public bool ground;
+    public float moveSpeed = 5f;
+    public float jumpForce = 10f;
 
     public Button jumpButton;
+    public Button crouchButton;
 
-    private float vertical;
-    private float horizontal;
+    public Camera mainCamera;
+    public float cameraRotationSpeed = 1f;
 
-    private void Update()
+    private CharacterController controller;
+    private Vector3 moveDirection;
+
+    public float playerRotationSpeed = 5f;
+
+    void Start()
     {
-        GetMobileInput();
+
+        controller = GetComponent<CharacterController>();
+
+        jumpButton.onClick.AddListener(() => {
+            Jump();
+        });
+
     }
 
-    private void GetMobileInput()
+    void Update()
     {
-        vertical = joystick.Vertical;
-        horizontal = joystick.Horizontal;
 
-        if (vertical >= 0.5f)
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                transform.localPosition += transform.forward * runSpeed * Time.deltaTime;
-            }
-            else
-            {
-                transform.localPosition += transform.forward * speed * Time.deltaTime;
-            }
-        }
+        // Движение
+        moveDirection = new Vector3(moveJoystick.Horizontal, 0, moveJoystick.Vertical);
+        controller.Move(moveDirection * moveSpeed * Time.deltaTime);
 
-        if (vertical <= -0.5f)
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                transform.localPosition += -transform.forward * runSpeed * Time.deltaTime;
-            }
-            else
-            {
-                transform.localPosition += -transform.forward * speed * Time.deltaTime;
-            }
-        }
-
-        if (horizontal <= -0.5f)
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                transform.localPosition += -transform.right * runSpeed * Time.deltaTime;
-            }
-            else
-            {
-                transform.localPosition += -transform.right * speed * Time.deltaTime;
-            }
-        }
-
-        if (horizontal >= 0.5f)
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                transform.localPosition += transform.right * runSpeed * Time.deltaTime;
-            }
-            else
-            {
-                transform.localPosition += transform.right * speed * Time.deltaTime;
-            }
-        }
-        if (Input.GetButtonDown("Jump"))
-        {
-            Log(ground);
-
-            Log(new StackTrace().ToString());
-
-            if (ground)
-            {
-                Log("Jumping...");
-
-                GetComponent<Rigidbody>().AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-            }
-        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void Jump()
     {
-        if (collision.gameObject.tag == "Ground")
+
+        if (controller.isGrounded)
         {
-            ground = true;
+            Vector3 jumpVelocity = Vector3.up * jumpForce * moveSpeed;
+            controller.Move(jumpVelocity * Time.deltaTime);
         }
+
     }
 
-    private void OnCollisionExit(Collision collision)
+    void LateUpdate()
     {
-        if (collision.gameObject.tag == "Ground")
-        {
-            ground = false;
-        }
+
+        float cameraAngle = lookJoystick.Horizontal * cameraRotationSpeed;
+
+        // Поворот камеры на cameraAngle
+
+        float playerAngle = lookJoystick.Horizontal * playerRotationSpeed;
+
+        // Поворот игрока на playerAngle
+        transform.Rotate(0, playerAngle, 0);
     }
+
 }

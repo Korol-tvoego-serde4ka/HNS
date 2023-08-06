@@ -133,7 +133,7 @@ PlayerSettings:
   vulkanEnableLateAcquireNextImage: 0
   vulkanEnableCommandBufferRecycling: 1
   loadStoreDebugModeEnabled: 0
-  bundleVersion: beta huetta sosetta
+  bundleVersion: "\u0437\u0430\u043B\u0443\u043F\u0430"
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
