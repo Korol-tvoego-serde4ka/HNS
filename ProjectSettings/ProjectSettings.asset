@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: h0m3us3r.ru
   productName: HNS
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -133,7 +133,7 @@ PlayerSettings:
   vulkanEnableLateAcquireNextImage: 0
   vulkanEnableCommandBufferRecycling: 1
   loadStoreDebugModeEnabled: 0
-  bundleVersion: "\u0437\u0430\u043B\u0443\u043F\u0430"
+  bundleVersion: "\u0440\u0430\u0431\u043E\u0447\u0430\u044F \u0432\u0435\u0440\u0441\u0438\u044F"
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
